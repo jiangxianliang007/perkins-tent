@@ -14,7 +14,7 @@ FROM debian:buster
 MAINTAINER Xuejie Xiao <xxuejie@gmail.com>
 
 RUN apt-get update
-RUN apt-get -y install --no-install-recommends wget gnupg ca-certificates unzip software-properties-common
+RUN apt-get -y install --no-install-recommends wget gnupg ca-certificates unzip software-properties-common openssl
 RUN wget -O - https://openresty.org/package/pubkey.gpg | apt-key add -
 RUN add-apt-repository -y "deb http://openresty.org/package/debian $(lsb_release -sc) openresty"
 RUN apt-get update
