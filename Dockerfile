@@ -8,7 +8,7 @@ RUN git clone https://github.com/xxuejie/ckb-graphql-server /ckb-graphql-server
 RUN cd /ckb-graphql-server && git checkout f750d67ea3cbeac027a47d1319a6998fce9a8d1f && cargo build --release
 
 RUN git clone https://github.com/quake/ckb-indexer /ckb-indexer
-RUN cd /ckb-indexer && cargo build --release
+RUN cd /ckb-indexer && git checkout 76f537e02250e3e6c4091c966bb7735f28e8974e && cargo build --release
 
 FROM debian:buster
 MAINTAINER Xuejie Xiao <xxuejie@gmail.com>
