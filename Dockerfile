@@ -58,6 +58,10 @@ COPY Procfile /confs/Procfile
 EXPOSE 8115
 # OpenResty port
 EXPOSE 9115
+# CKB tcp rpc port
+EXPOSE 18114
+# CKB ws rpc port
+EXPOSE 28114
 
 ENTRYPOINT ["/usr/bin/dumb-init", "--"]
 CMD ["bash", "-c", "/confs/setup.sh && exec goreman -set-ports=false -exit-on-error -f /data/confs/Procfile start"]
