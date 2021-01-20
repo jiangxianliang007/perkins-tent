@@ -1,11 +1,11 @@
-FROM rust:1.41 as builder
-MAINTAINER Xuejie Xiao <xxuejie@gmail.com>
+#FROM rust:1.41 as builder
+#MAINTAINER Xuejie Xiao <xxuejie@gmail.com>
 
-RUN apt-get update
-RUN apt-get -y install --no-install-recommends llvm-dev clang libclang-dev
+#RUN apt-get update
+#RUN apt-get -y install --no-install-recommends llvm-dev clang libclang-dev
 
-RUN git clone https://github.com/xxuejie/ckb-graphql-server /ckb-graphql-server
-RUN cd /ckb-graphql-server && git checkout f750d67ea3cbeac027a47d1319a6998fce9a8d1f && cargo build --release
+#RUN git clone https://github.com/xxuejie/ckb-graphql-server /ckb-graphql-server
+#RUN cd /ckb-graphql-server && git checkout f750d67ea3cbeac027a47d1319a6998fce9a8d1f && cargo build --release
 
 FROM debian:buster
 MAINTAINER Xuejie Xiao <xxuejie@gmail.com>
@@ -17,16 +17,17 @@ RUN add-apt-repository -y "deb http://openresty.org/package/debian $(lsb_release
 RUN apt-get update
 RUN apt-get -y install --no-install-recommends openresty
 
-COPY --from=builder /ckb-graphql-server/target/release/ckb-graphql-server /bin/ckb-graphql-server
-
-RUN wget https://github.com/nervosnetwork/ckb-indexer/releases/download/v0.1.9/ckb-index-0.1.9-linux.zip  -O /tmp/ckb-index-0.1.9-linux.zip
-RUN cd /tmp &&  unzip ckb-index-0.1.9-linux.zip  && tar zxf ckb-indexer-linux-x86_64.tar.gz
+#COPY --from=builder /ckb-graphql-server/target/release/ckb-graphql-server /bin/ckb-graphql-server
+ENV CKB_INDEXER_VERSION 0.1.9
+RUN wget https://github.com/nervosnetwork/ckb-indexer/releases/download/v${CKB_INDEXER_VERSION}/ckb-indexer-${CKB_INDEXER_VERSION}-linux.zip  -O /tmp/ckb-indexer-${CKB_INDEXER_VERSION}-linux.zip
+RUN cd /tmp && unzip ckb-indexer-${CKB_INDEXER_VERSION}-linux.zip && tar zxf ckb-indexer-linux-x86_64.tar.gz
 RUN cp /tmp/ckb-indexer /bin/ckb-indexer
-RUN rm -rf /tmp/ckb-index-0.1.9-linux.zip /tmp/ckb-indexer-linux-x86_64.tar.gz
+RUN rm -rf /tmp/ckb-indexer-${CKB_INDEXER_VERSION}-linux.zip /tmp/ckb-indexer-linux-x86_64.tar.gz
 
-RUN wget https://github.com/nervosnetwork/ckb/releases/download/v0.39.1/ckb_v0.39.1_x86_64-unknown-linux-gnu.tar.gz -O /tmp/ckb_v0.39.1_x86_64-unknown-linux-gnu.tar.gz
-RUN cd /tmp && tar xzf ckb_v0.39.1_x86_64-unknown-linux-gnu.tar.gz
-RUN cp /tmp/ckb_v0.39.1_x86_64-unknown-linux-gnu/ckb /bin/ckb
+ENV CKB_VSERION 0.39.1
+RUN wget https://github.com/nervosnetwork/ckb/releases/download/v${CKB_VSERION}/ckb_v${CKB_VSERION}_x86_64-unknown-linux-gnu.tar.gz -O /tmp/ckb_v${CKB_VSERION}_x86_64-unknown-linux-gnu.tar.gz
+RUN cd /tmp && tar xzf ckb_v${CKB_VSERION}_x86_64-unknown-linux-gnu.tar.gz
+RUN cp /tmp/ckb_v${CKB_VSERION}_x86_64-unknown-linux-gnu/ckb /bin/ckb
 
 RUN mkdir /tmp/goreman && wget https://github.com/mattn/goreman/releases/download/v0.3.4/goreman_linux_amd64.zip -O /tmp/goreman/goreman_linux_amd64.zip
 RUN cd /tmp/goreman && unzip goreman_linux_amd64.zip
@@ -35,7 +36,7 @@ RUN cp /tmp/goreman/goreman /bin/goreman
 RUN wget https://github.com/Yelp/dumb-init/releases/download/v1.2.2/dumb-init_1.2.2_amd64.deb -O /tmp/dumb-init.deb
 RUN dpkg -i /tmp/dumb-init.deb
 
-RUN rm -rf /tmp/ckb_v0.39.1_x86_64-unknown-linux-gnu/ckb /tmp/goreman /tmp/dumb-init.deb
+RUN rm -rf /tmp/ckb_v${CKB_VSERION}_x86_64-unknown-linux-gnu/ckb /tmp/goreman /tmp/dumb-init.deb
 RUN apt-get -y remove wget gnupg ca-certificates unzip software-properties-common && apt-get -y autoremove && apt-get clean
 
 ENV ENABLE_RATE_LIMIT true
