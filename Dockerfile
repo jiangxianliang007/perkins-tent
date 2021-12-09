@@ -18,7 +18,7 @@ RUN apt-get update
 RUN apt-get -y install --no-install-recommends openresty
 
 #COPY --from=builder /ckb-graphql-server/target/release/ckb-graphql-server /bin/ckb-graphql-server
-ENV CKB_INDEXER_VERSION 0.3.1
+ENV CKB_INDEXER_VERSION 0.3.2
 RUN wget https://github.com/nervosnetwork/ckb-indexer/releases/download/v${CKB_INDEXER_VERSION}/ckb-indexer-${CKB_INDEXER_VERSION}-linux.zip  -O /tmp/ckb-indexer-${CKB_INDEXER_VERSION}-linux.zip
 RUN cd /tmp && unzip ckb-indexer-${CKB_INDEXER_VERSION}-linux.zip && tar zxf ckb-indexer-linux-x86_64.tar.gz
 RUN cp /tmp/ckb-indexer /bin/ckb-indexer
