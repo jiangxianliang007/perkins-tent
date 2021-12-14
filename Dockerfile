@@ -24,7 +24,7 @@ RUN cd /tmp && unzip ckb-indexer-${CKB_INDEXER_VERSION}-linux.zip && tar zxf ckb
 RUN cp /tmp/ckb-indexer /bin/ckb-indexer
 RUN rm -rf /tmp/ckb-indexer-${CKB_INDEXER_VERSION}-linux.zip /tmp/ckb-indexer-linux-x86_64.tar.gz
 
-ENV CKB_VSERION 0.101.2
+ENV CKB_VSERION 0.101.3
 RUN wget https://github.com/nervosnetwork/ckb/releases/download/v${CKB_VSERION}/ckb_v${CKB_VSERION}_x86_64-unknown-linux-gnu.tar.gz -O /tmp/ckb_v${CKB_VSERION}_x86_64-unknown-linux-gnu.tar.gz
 RUN cd /tmp && tar xzf ckb_v${CKB_VSERION}_x86_64-unknown-linux-gnu.tar.gz
 RUN cp /tmp/ckb_v${CKB_VSERION}_x86_64-unknown-linux-gnu/ckb /bin/ckb
