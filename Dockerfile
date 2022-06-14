@@ -13,7 +13,7 @@ LABEL maintainer="op <op@nervos.org>"
 RUN apt-get update
 RUN apt-get -y install --no-install-recommends wget gnupg ca-certificates unzip software-properties-common openssl
 RUN wget -O - https://openresty.org/package/pubkey.gpg | apt-key add -
-RUN add-apt-repository -y "deb http://openresty.org/package/ubuntu $(lsb_release -sc) openresty"
+RUN echo "deb http://openresty.org/package/ubuntu $(lsb_release -sc) main" | tee /etc/apt/sources.list.d/openresty.list
 RUN apt-get update
 RUN apt-get -y install --no-install-recommends openresty
 
