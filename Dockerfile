@@ -7,13 +7,13 @@
 #RUN git clone https://github.com/xxuejie/ckb-graphql-server /ckb-graphql-server
 #RUN cd /ckb-graphql-server && git checkout f750d67ea3cbeac027a47d1319a6998fce9a8d1f && cargo build --release
 
-FROM debian:buster
-MAINTAINER Xuejie Xiao <xxuejie@gmail.com>
+FROM ubuntu:20.04
+LABEL maintainer="op <op@nervos.org>"
 
 RUN apt-get update
 RUN apt-get -y install --no-install-recommends wget gnupg ca-certificates unzip software-properties-common openssl
 RUN wget -O - https://openresty.org/package/pubkey.gpg | apt-key add -
-RUN add-apt-repository -y "deb http://openresty.org/package/debian $(lsb_release -sc) openresty"
+RUN add-apt-repository -y "deb http://openresty.org/package/ubuntu $(lsb_release -sc) openresty"
 RUN apt-get update
 RUN apt-get -y install --no-install-recommends openresty
 
