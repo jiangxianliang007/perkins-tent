@@ -18,13 +18,13 @@ RUN apt-get update
 RUN apt-get -y install --no-install-recommends openresty
 
 #COPY --from=builder /ckb-graphql-server/target/release/ckb-graphql-server /bin/ckb-graphql-server
-ENV CKB_INDEXER_VERSION 0.4.0
+ENV CKB_INDEXER_VERSION 0.4.1
 RUN wget https://github.com/nervosnetwork/ckb-indexer/releases/download/v${CKB_INDEXER_VERSION}/ckb-indexer-${CKB_INDEXER_VERSION}-linux-x86_64.tar.gz -O /tmp/ckb-indexer-${CKB_INDEXER_VERSION}-linux-x86_64.tar.gz
 RUN cd /tmp && tar zxf ckb-indexer-${CKB_INDEXER_VERSION}-linux-x86_64.tar.gz
 RUN cp /tmp/ckb-indexer /bin/ckb-indexer
 RUN rm -rf /tmp/ckb-indexer-${CKB_INDEXER_VERSION}-linux-x86_64.tar.gz
 
-ENV CKB_VSERION 0.103.0
+ENV CKB_VSERION 0.104.0
 RUN wget https://github.com/nervosnetwork/ckb/releases/download/v${CKB_VSERION}/ckb_v${CKB_VSERION}_x86_64-unknown-linux-gnu.tar.gz -O /tmp/ckb_v${CKB_VSERION}_x86_64-unknown-linux-gnu.tar.gz
 RUN cd /tmp && tar xzf ckb_v${CKB_VSERION}_x86_64-unknown-linux-gnu.tar.gz
 RUN cp /tmp/ckb_v${CKB_VSERION}_x86_64-unknown-linux-gnu/ckb /bin/ckb
